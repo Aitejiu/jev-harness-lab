@@ -1,0 +1,5 @@
+typesafe-sdk==0.7.0
+pyarrow==25.0.1
+pandas==3.0.6
+rank-bm25==0.2.2
+mcp==2.2.0
