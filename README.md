@@ -4,6 +4,16 @@
 
 Jev 的形态：输入 `state` + 类型化 `questions`（`choice` / `noul` / `score`），返回带概率与置信度的结构化判断，不生成文本。本仓库用它验证 harness 中的判断类任务：注入检测、检索重排、意图/技能路由、命令风险门控等。
 
+[![skills.sh](https://skills.sh/b/Aitejiu/jev-harness-lab)](https://skills.sh/Aitejiu/jev-harness-lab)
+
+## Install as an agent skill
+
+`skills/jev-skill-router/` 是一个可安装的 agent skill（skills.sh 生态）：用 Jev 把任务路由到已安装的 skill，并且只加载选中那一个的完整指令，避免把整个 skill 目录塞进主模型上下文。
+
+```bash
+npx skills add Aitejiu/jev-harness-lab --skill jev-skill-router
+```
+
 ## 目录
 
 ```
@@ -13,6 +23,8 @@ Jev 的形态：输入 `state` + 类型化 `questions`（`choice` / `noul` / `sc
 │   └── datasets/        # 手工构造的数据集（如 130 条 shell 命令风险集）
 ├── integrations/
 │   └── opencode/        # opencode 插件：jev_route_skill（skill 门控）
+├── skills/
+│   └── jev-skill-router/  # 可安装的 agent skill（SKILL.md + 独立脚本，skills.sh）
 ├── docs/
 │   └── REPORT.md        # 技术评估报告（数据与结论）
 ├── mcp_server.py        # MCP 工具：scan_injection / bash_risk / rank_candidates
