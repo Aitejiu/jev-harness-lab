@@ -11,7 +11,7 @@
 用 [`uv`](https://docs.astral.sh/uv/) 一条命令，无需克隆：
 
 ```bash
-# 从 PyPI（发布后可用）
+# 从 PyPI
 uvx jev-mcp
 
 # 直接从 GitHub 源码运行
@@ -41,7 +41,9 @@ uvx --from git+https://github.com/Aitejiu/jev-harness-lab jev-mcp
 | `bash_risk` | shell 命令四维风险打分（破坏性 / 触密 / 外发 / 不可逆），返回 deny / review / allow |
 | `rank_candidates` | 候选片段按相关性打分排序（RAG 精排） |
 
-MCP Registry：`mcp-name: io.github.aitejiu/jev`（`server.json` 随仓库提供）
+MCP Registry 归属标记（勿改格式）：
+
+mcp-name: io.github.aitejiu/jev
 
 ### ② Agent skill（让 Jev 帮主模型选 skill）
 
