@@ -2,16 +2,61 @@
 
 用 [TypeSafe Jev](https://docs.typesafe.ai)（System One 决策模型）做 agent harness 工程实验的技术仓库：评测框架、基准报告、可运行的集成工具（MCP server、skill router）。
 
-Jev 的形态：输入 `state` + 类型化 `questions`（`choice` / `noul` / `score`），返回带概率与置信度的结构化判断，不生成文本。本仓库用它验证 harness 中的判断类任务：注入检测、检索重排、意图/技能路由、命令风险门控等。
-
 [![skills.sh](https://skills.sh/b/Aitejiu/jev-harness-lab)](https://skills.sh/Aitejiu/jev-harness-lab)
 
-## Install as an agent skill
+## 安装
 
-`skills/jev-skill-router/` 是一个可安装的 agent skill（skills.sh 生态）：用 Jev 把任务路由到已安装的 skill，并且只加载选中那一个的完整指令，避免把整个 skill 目录塞进主模型上下文。
+### ① MCP server（给 agent 加三个 Jev 工具）
+
+用 [`uv`](https://docs.astral.sh/uv/) 一条命令，无需克隆：
+
+```bash
+# 从 PyPI（发布后可用）
+uvx jev-mcp
+
+# 直接从 GitHub 源码运行
+uvx --from git+https://github.com/Aitejiu/jev-harness-lab jev-mcp
+```
+
+配置到任意 MCP 客户端（opencode / Claude Desktop 等）：
+
+```json
+{
+  "mcp": {
+    "jev": {
+      "type": "local",
+      "command": ["uvx", "--from", "git+https://github.com/Aitejiu/jev-harness-lab", "jev-mcp"],
+      "environment": { "TYPESAFE_API_KEY": "your-key" },
+      "enabled": true
+    }
+  }
+}
+```
+
+提供的工具：
+
+| 工具 | 作用 |
+|---|---|
+| `scan_injection` | 扫描工具/网页/邮件输出里的注入指令，返回 block / review / pass |
+| `bash_risk` | shell 命令四维风险打分（破坏性 / 触密 / 外发 / 不可逆），返回 deny / review / allow |
+| `rank_candidates` | 候选片段按相关性打分排序（RAG 精排） |
+
+MCP Registry：`mcp-name: io.github.aitejiu/jev`（`server.json` 随仓库提供）
+
+### ② Agent skill（让 Jev 帮主模型选 skill）
 
 ```bash
 npx skills add Aitejiu/jev-harness-lab --skill jev-skill-router
+```
+
+用 Jev 把任务路由到已安装的 skill，并且只加载选中那一个的完整指令，避免把整个 skill 目录塞进主模型上下文。技能页：https://www.skills.sh/aitejiu/jev-harness-lab/jev-skill-router
+
+### 环境变量
+
+两个集成都需要：
+
+```bash
+export TYPESAFE_API_KEY=<your-key>
 ```
 
 ## 目录
@@ -27,7 +72,10 @@ npx skills add Aitejiu/jev-harness-lab --skill jev-skill-router
 │   └── jev-skill-router/  # 可安装的 agent skill（SKILL.md + 独立脚本，skills.sh）
 ├── docs/
 │   └── REPORT.md        # 技术评估报告（数据与结论）
-├── mcp_server.py        # MCP 工具：scan_injection / bash_risk / rank_candidates
+├── src/jev_mcp/         # MCP server 包（PyPI: jev-mcp）
+├── pyproject.toml       # Python 打包配置（console script: jev-mcp）
+├── server.json          # MCP Registry 元数据（mcp-name: io.github.aitejiu/jev）
+├── mcp_server.py        # 兼容 shim：不安装也可 python mcp_server.py 运行
 ├── skill_router.py      # 本地 skill 目录路由（Jev 选择并加载 SKILL.md）
 ├── common.py            # .env 加载 + 共享 client
 └── requirements.txt

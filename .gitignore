@@ -21,3 +21,6 @@ docs/DOMAINS.md
 docs/BLOG-*.md
 docs/X-POST.md
 docs/assets/
+
+dist/
+*.egg-info/

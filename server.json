@@ -1,0 +1,28 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.aitejiu/jev",
+  "description": "TypeSafe Jev judgments for agent harnesses: tool-output injection scanning, shell command risk gating, and candidate relevance ranking. Runs over stdio and requires a TYPESAFE_API_KEY.",
+  "repository": {
+    "url": "https://github.com/Aitejiu/jev-harness-lab",
+    "source": "github"
+  },
+  "version": "0.1.0",
+  "packages": [
+    {
+      "registryType": "pypi",
+      "identifier": "jev-mcp",
+      "version": "0.1.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "TYPESAFE_API_KEY",
+          "description": "TypeSafe API key used for Jev judgments",
+          "isRequired": true,
+          "isSecret": true
+        }
+      ]
+    }
+  ]
+}
