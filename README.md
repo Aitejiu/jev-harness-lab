@@ -43,7 +43,7 @@ uvx --from git+https://github.com/Aitejiu/jev-harness-lab jev-mcp
 
 MCP Registry 归属标记（勿改格式）：
 
-mcp-name: io.github.aitejiu/jev
+mcp-name: io.github.Aitejiu/jev
 
 ### ② Agent skill（让 Jev 帮主模型选 skill）
 
@@ -76,7 +76,7 @@ export TYPESAFE_API_KEY=<your-key>
 │   └── REPORT.md        # 技术评估报告（数据与结论）
 ├── src/jev_mcp/         # MCP server 包（PyPI: jev-mcp）
 ├── pyproject.toml       # Python 打包配置（console script: jev-mcp）
-├── server.json          # MCP Registry 元数据（mcp-name: io.github.aitejiu/jev）
+├── server.json          # MCP Registry 元数据（mcp-name: io.github.Aitejiu/jev）
 ├── mcp_server.py        # 兼容 shim：不安装也可 python mcp_server.py 运行
 ├── skill_router.py      # 本地 skill 目录路由（Jev 选择并加载 SKILL.md）
 ├── common.py            # .env 加载 + 共享 client

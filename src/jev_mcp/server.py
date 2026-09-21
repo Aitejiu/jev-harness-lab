@@ -35,7 +35,7 @@ client = TypeSafeClient()
 
 server = MCPServer(
     name="jev",
-    version="0.1.1",
+    version="0.1.2",
     instructions=(
         "Fast, calibrated judgments from TypeSafe Jev for an agent harness: "
         "untrusted tool-output injection scanning, shell command risk gating, "
